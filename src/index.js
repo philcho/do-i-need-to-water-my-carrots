@@ -1,1 +1,1 @@
-<h1>Howdy</h1>
+console.log('Hello World!');
