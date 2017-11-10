@@ -4,6 +4,7 @@
   "description": "App: Do I Need to Water My Carrots?",
   "main": "index.js",
   "scripts": {
+    "compile": "webpack",
     "test": "test"
   },
   "repository": {
@@ -17,7 +18,9 @@
   },
   "homepage": "https://github.com/philcho/hrsf84-mvp#readme",
   "dependencies": {
-    "babel-core": "^6.26.0"
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "webpack": "^3.8.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
