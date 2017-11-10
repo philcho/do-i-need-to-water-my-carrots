@@ -18,27 +18,37 @@ Once the project moves into development, the press release can be used as a touc
  
 ## Heading ##
   > Name the product in a way the reader (i.e. your target customers) will understand.
+  Do I need to water my carrots?
 
 ## Sub-Heading ##
   > Describe who the market for the product is and what benefit they get. One sentence only underneath the title.
+  Helping home gardeners save water, time and money!
 
 ## Summary ##
   > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good.
+  Before you go outside to water your carrots, fire up the "Do I Need to Water My Carrots?" app. The app will provide a simple "Yes" or "No". If it's a "no," you can skip the watering that day, go back inside, and slouch into your favorite bean bag chair knowing you're saving both time and money.
 
 ## Problem ##
   > Describe the problem your product solves.
+  You want to save water but keeping track of rainfall frequency and amounts takes a lot of time and effort.
 
 ## Solution ##
   > Describe how your product elegantly solves the problem.
+  The app keeps track of daily rainfall accumulation and then uses the power of Algorithmic Calcutelligence™ to determine whether you should stay in or go out.
 
 ## Quote from You ##
   > A quote from a spokesperson in your company.
+  "With the 'Do I Need to Water My Carrots' app, you can spend less time watering and more time eating carrots."
 
 ## How to Get Started ##
   > Describe how easy it is to get started.
+  Just fire up the app and you'll see a simple "Yes" or "No".
 
 ## Customer Quote ##
-  > Provide a quote from a hypothetical customer that describes how they experienced the benefit.
+  > Provide a quote from a hypothetical customer that describes how they experienced the benefit
+  "I'm a busy urban gardener who hates wasting water. With the time and money this app has saved me, I bought four new bean bag chairs."
 
 ## Closing and Call to Action ##
   > Wrap it up and give pointers where the reader should go next.
+  Give it a try! Your carrots will thank you.
+
