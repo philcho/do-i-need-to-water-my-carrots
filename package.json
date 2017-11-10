@@ -1,0 +1,19 @@
+{
+  "name": "hrsf84-mvp",
+  "version": "1.0.0",
+  "description": "App: Do I Need to Water My Carrots?",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/philcho/hrsf84-mvp.git"
+  },
+  "author": "Phil Cho",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/philcho/hrsf84-mvp/issues"
+  },
+  "homepage": "https://github.com/philcho/hrsf84-mvp#readme"
+}
