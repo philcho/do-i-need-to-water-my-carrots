@@ -12,18 +12,20 @@ db.once('open', function() {
 var dbSchema = mongoose.Schema({
   date: { type: Date, index: { unique: true }},
   rainfall: Number,
-  zipcode: Number,
+  zipcode: String,
   hightemp: Number  
 });
 
 var RainLog = mongoose.model('RainLog', dbSchema);
 
 var dataSave = function(weatherData, callback) {
+  let wData = JSON.parse(weatherData).daily.data[0];
+
   var rainEntry = new RainLog({
-    date: 255657600,
-    rainfall: 7.337,
-    zipcode: 02201,
-    hightemp: 31.84
+    date: wData.time,
+    rainfall: wData.precipAccumulation,
+    zipcode: '02201',
+    hightemp: wData.temperatureHigh
   });
 
   rainEntry.save(function(err, rainEntry) {
