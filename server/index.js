@@ -29,15 +29,12 @@ app.get('/data', function(req, res) {
     .then(function(data) {
       entries.dataSave(data, function(err, rainEntry) {
         if(err) {
-          if(err.code === 11000) {
-            console.log('duplicate entry');
-            res.status(409).send(rainEntry);     
+          if(err.code === 11000) { // duplicate entry
+            res.status(409).send(err);     
           } else {
-            // console.log('data save error', err);
             throw new Error (err);
           }
         } else {
-          // console.log('data save successful!!', rainEntry);
           res.status(200).send(rainEntry);     
         }
       });
