@@ -4,9 +4,8 @@
   "description": "App: Do I Need to Water My Carrots?",
   "main": "index.js",
   "scripts": {
-    "compile": "webpack",
-    "start": "node server/index.js",
-    "test": "test"
+    "compile": "webpack --watch",
+    "start": "nodemon server/index.js"
   },
   "repository": {
     "type": "git",
@@ -21,10 +20,14 @@
   "dependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.18.2",
     "express": "^4.16.2",
     "jquery": "^3.2.1",
+    "nodemon": "^1.12.1",
     "react": "^16.1.0",
     "react-dom": "^16.1.0",
+    "request": "^2.83.0",
     "webpack": "^3.8.1",
     "webpack-dev-middleware": "^1.12.0"
   },
