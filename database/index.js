@@ -10,7 +10,7 @@ db.once('open', function() {
 });
 
 var dbSchema = mongoose.Schema({
-  date: { type: Date, index: { unique: true }},
+  date: { type: String, index: { unique: true }},
   rainfall: Number,
   zipcode: String,
   hightemp: Number  
@@ -18,12 +18,22 @@ var dbSchema = mongoose.Schema({
 
 var RainLog = mongoose.model('RainLog', dbSchema);
 
-var dataSave = function(weatherData, callback) {
+var dataGet = function(day, callback) {
+  RainLog.find({ date: day }, function(err, rainEntry) {
+    if (err) {
+      callback(err, null);
+    } else {
+      callback(null, rainEntry);
+    }
+  }); 
+};
+
+var dataSave = function(weatherData, day, callback) {
   let wData = JSON.parse(weatherData).daily.data[0];
 
   var rainEntry = new RainLog({
-    date: wData.time,
-    rainfall: wData.precipAccumulation,
+    date: day,
+    rainfall: wData.precipAccumulation || 0,
     zipcode: '02201',
     hightemp: wData.temperatureHigh
   });
@@ -37,4 +47,5 @@ var dataSave = function(weatherData, callback) {
   });
 };
 
+module.exports.dataGet = dataGet;
 module.exports.dataSave = dataSave;

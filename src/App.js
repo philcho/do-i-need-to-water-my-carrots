@@ -11,8 +11,13 @@ class App extends React.Component {
   }
 
   getWeatherData() {
+    let dayObj = new Date(); // Date obj
+    dayObj.setDate(dayObj.getDate() - 1); // Date obj: yesterday
+    let month = Number(dayObj.getMonth()) + 1;
+    let day = dayObj.getFullYear() + '-' + month + '-' + dayObj.getDate();
+
     $.ajax({
-      url: 'http://localhost:3000/data',
+      url: `http://localhost:3000/data/${day}`,
       success: function(entryData) {
         this.getPrecipTotal(entryData);
       }.bind(this),
@@ -23,7 +28,17 @@ class App extends React.Component {
   }
 
   getPrecipTotal(entryData) {
-    let precipAccumulation = entryData.rainfall;
+    console.log('getPrecipTotal', entryData);
+    let precipAccumulation = 0;
+
+    // If data is from the DB, it's in an array
+    if (Array.isArray(entryData)) {
+      precipAccumulation = entryData[0].rainfall;
+    } else {
+    // If data is from the API, it's in an object
+      precipAccumulation = entryData.rainfall;
+    }
+
     this.setState({ precipTotal: precipAccumulation });
   }
 
