@@ -24,7 +24,6 @@ app.use(webpackDevMiddleware(compiler, {
 }));
 
 app.get('/data', function(req, res) {
-  console.log('in app.get');
   getPrecipDataAsync(null)
     .then(function(data) {
       res.status(200).send(data);
