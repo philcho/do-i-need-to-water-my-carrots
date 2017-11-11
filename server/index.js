@@ -1,12 +1,13 @@
-const bodyParser = require('body-parser');
 const express = require('express');
+const bodyParser = require('body-parser');
+const Promise = require('bluebird');
+const getPrecipDataAsync = Promise.promisify(require('./dark-sky-api').getPrecipData);
+const entries = require('../database');
+const app = express();
+
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpack = require('webpack');
 const webpackConfig = require('../webpack.config.js');
-const app = express();
-const Promise = require('bluebird');
-const getPrecipDataAsync = Promise.promisify(require('./dark-sky-api').getPrecipData);
- 
 const compiler = webpack(webpackConfig);
  
 app.use(express.static(__dirname + '/../dist'));
@@ -26,7 +27,20 @@ app.use(webpackDevMiddleware(compiler, {
 app.get('/data', function(req, res) {
   getPrecipDataAsync(null)
     .then(function(data) {
-      res.status(200).send(data);
+      entries.dataSave(data, function(err, rainEntry) {
+        if(err) {
+          if(err.code === 11000) {
+            console.log('duplicate entry');
+            res.status(409).send(rainEntry);     
+          } else {
+            // console.log('data save error', err);
+            throw new Error (err);
+          }
+        } else {
+          // console.log('data save successful!!', rainEntry);
+          res.status(200).send(rainEntry);     
+        }
+      });
     })
     .catch(function(err) {
       res.status(404).send(err);

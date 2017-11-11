@@ -13,18 +13,21 @@ class App extends React.Component {
   getWeatherData() {
     $.ajax({
       url: 'http://localhost:3000/data',
-      success: function(weatherData) {
-        this.getPrecipTotal(JSON.parse(weatherData));
+      success: function(entryData) {
+        // console.log('ajax success', entryData);
+        this.getPrecipTotal(entryData);
       }.bind(this),
       error: function(err) {
+        console.log('getWeatherData() error', err);
         throw new Error(err);
       }
     });
   }
 
-  getPrecipTotal(weatherData) {
-    let precipAccumulation = weatherData.daily.data[0].precipAccumulation;
-    this.setState({precipTotal: precipAccumulation});
+  getPrecipTotal(entryData) {
+    // console.log('getPrecipTotal', entryData);
+    let precipAccumulation = entryData.rainfall;
+    this.setState({ precipTotal: precipAccumulation });
   }
 
   render() {
