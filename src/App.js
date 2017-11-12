@@ -32,21 +32,24 @@ class App extends React.Component {
     });
   }
 
+  getPastDate(numDaysInPast) {
+    let dayObj = new Date();
+    dayObj.setDate(dayObj.getDate() - numDaysInPast);
+    let twoCharMonth = ('0' + (Number(dayObj.getMonth()) + 1)).slice(-2);
+    let twoCharDay = ('0' + dayObj.getDate()).slice(-2);
+    return dayObj.getFullYear() + '-' + twoCharMonth + '-' + twoCharDay;
+  }
+
   calculateRainfallTotal(numOfDays) {
     this.setState({ precipTotal: 0 });
 
     for (let i = 1; i <= numOfDays; i++) {
-      let dayObj = new Date(); // Date obj
-      dayObj.setDate(dayObj.getDate() - i); // Date obj minus i days
-      let twoCharMonth = ('0' + (Number(dayObj.getMonth()) + 1)).slice(-2);
-      let twoCharDay = ('0' + dayObj.getDate()).slice(-2);
-
-      let day = dayObj.getFullYear() + '-' + twoCharMonth + '-' + twoCharDay;
+      let day = this.getPastDate(i);
       
       this.getWeatherData(day, function(entryData) {
         let rainfallAmount = this.extractRainfallData(entryData);
         let newPrecipTotal = this.state.precipTotal + rainfallAmount;
-        this.setState({ precipTotal: newPrecipTotal });
+        this.setState({ precipTotal: newPrecipTotal }); // TODO: Make this work without having to set state every iteration (Promises?)
       }.bind(this));
     }  
   }
