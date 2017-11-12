@@ -16,9 +16,11 @@ class App extends React.Component {
   extractRainfallData(entryData) {
     // If data is from the DB, it's an array
     if (Array.isArray(entryData)) {
+      console.log('extractRainfallData db', entryData[0].rainfall);
       return entryData[0].rainfall;
     } else {
     // If data is from the API, it's an object
+      console.log('extractRainfallData api', entryData.rainfall);
       return entryData.rainfall;
     }
   }
