@@ -6,8 +6,11 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      precipTotal: 0
+      precipTotal: 0,
+      showVerdict: false
     }
+
+    this.handleQuestionClick = this.handleQuestionClick.bind(this);
   }
 
   extractRainfallData(entryData) {
@@ -54,18 +57,27 @@ class App extends React.Component {
     }  
   }
 
+  handleQuestionClick(e) {
+    this.setState({ showVerdict: true });
+  }
+
   render() {
-    let verdict = null;
+    let verdictText = null;
     if (this.state.precipTotal > 0.5) {
-      verdict = 'No';
+      verdictText = 'No';
     } else {
-      verdict = 'Yes';
+      verdictText = 'Yes';
+    }
+
+    let verdict = null;
+    if (this.state.showVerdict) {
+      verdict = <p className="verdict">{verdictText}</p>
     }
 
     return (
       <div>
-        <p>Do I Need to Water My Carrots?</p>
-        <h1>{verdict}</h1>
+        <p className="question" onClick={this.handleQuestionClick}>Do I Need to Water My Carrots?</p>
+        {verdict}
       </div>
     );
   }
