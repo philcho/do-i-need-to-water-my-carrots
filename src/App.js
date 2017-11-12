@@ -10,36 +10,48 @@ class App extends React.Component {
     }
   }
 
-  getWeatherData() {
-    let dayObj = new Date(); // Date obj
-    dayObj.setDate(dayObj.getDate() - 1); // Date obj: yesterday
-    let month = Number(dayObj.getMonth()) + 1;
-    let day = dayObj.getFullYear() + '-' + month + '-' + dayObj.getDate();
+  getPrecipTotal(entryData) {
+    // If data is from the DB, it's an array
+    if (Array.isArray(entryData)) {
+      // console.log('getPrecipTotal', entryData[0].rainfall);
+      return entryData[0].rainfall;
+    } else {
+    // If data is from the API, it's an object
+      return entryData.rainfall;
+    }
+  }
+
+  getWeatherData(day) {
+    let precipTotal = 0;
 
     $.ajax({
       url: `http://localhost:3000/data/${day}`,
       success: function(entryData) {
-        this.getPrecipTotal(entryData);
+        precipTotal = this.getPrecipTotal(entryData);
+        console.log('precipTotal in ajax', precipTotal);
       }.bind(this),
       error: function(err) {
         throw new Error(err);
       }
     });
+    console.log('precipTotal before return', precipTotal);
+    return precipTotal;
   }
 
-  getPrecipTotal(entryData) {
-    console.log('getPrecipTotal', entryData);
-    let precipAccumulation = 0;
+  getRainfallTotal(numOfDays) {
+    let newPrecipTotal = 0;
 
-    // If data is from the DB, it's in an array
-    if (Array.isArray(entryData)) {
-      precipAccumulation = entryData[0].rainfall;
-    } else {
-    // If data is from the API, it's in an object
-      precipAccumulation = entryData.rainfall;
+    for (let i = 1; i <= numOfDays; i++) {
+      let dayObj = new Date(); // Date obj
+      dayObj.setDate(dayObj.getDate() - i); // Date obj minus i days
+      let twoCharMonth = ('0' + (Number(dayObj.getMonth()) + 1)).slice(-2);
+      let twoCharDay = ('0' + dayObj.getDate()).slice(-2);
+
+      let day = dayObj.getFullYear() + '-' + twoCharMonth + '-' + twoCharDay;
+      newPrecipTotal += this.getWeatherData(day);
     }
 
-    this.setState({ precipTotal: precipAccumulation });
+    this.setState({ precipTotal: newPrecipTotal });
   }
 
   render() {
@@ -49,7 +61,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.getWeatherData();
+    this.getRainfallTotal(3);
   }
 }
 
