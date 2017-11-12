@@ -10,10 +10,9 @@ class App extends React.Component {
     }
   }
 
-  getPrecipTotal(entryData) {
+  extractRainfallData(entryData) {
     // If data is from the DB, it's an array
     if (Array.isArray(entryData)) {
-      // console.log('getPrecipTotal', entryData[0].rainfall);
       return entryData[0].rainfall;
     } else {
     // If data is from the API, it's an object
@@ -21,25 +20,20 @@ class App extends React.Component {
     }
   }
 
-  getWeatherData(day) {
-    let precipTotal = 0;
-
+  getWeatherData(day, callback) {
     $.ajax({
       url: `http://localhost:3000/data/${day}`,
       success: function(entryData) {
-        precipTotal = this.getPrecipTotal(entryData);
-        console.log('precipTotal in ajax', precipTotal);
-      }.bind(this),
+        callback(entryData);
+      },
       error: function(err) {
         throw new Error(err);
       }
     });
-    console.log('precipTotal before return', precipTotal);
-    return precipTotal;
   }
 
-  getRainfallTotal(numOfDays) {
-    let newPrecipTotal = 0;
+  calculateRainfallTotal(numOfDays) {
+    this.setState({ precipTotal: 0 });
 
     for (let i = 1; i <= numOfDays; i++) {
       let dayObj = new Date(); // Date obj
@@ -48,10 +42,13 @@ class App extends React.Component {
       let twoCharDay = ('0' + dayObj.getDate()).slice(-2);
 
       let day = dayObj.getFullYear() + '-' + twoCharMonth + '-' + twoCharDay;
-      newPrecipTotal += this.getWeatherData(day);
-    }
-
-    this.setState({ precipTotal: newPrecipTotal });
+      
+      this.getWeatherData(day, function(entryData) {
+        let rainfallAmount = this.extractRainfallData(entryData);
+        let newPrecipTotal = this.state.precipTotal + rainfallAmount;
+        this.setState({ precipTotal: newPrecipTotal });
+      }.bind(this));
+    }  
   }
 
   render() {
@@ -61,7 +58,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.getRainfallTotal(3);
+    this.calculateRainfallTotal(3);
   }
 }
 
