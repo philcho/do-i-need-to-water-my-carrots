@@ -55,8 +55,18 @@ class App extends React.Component {
   }
 
   render() {
+    let verdict = null;
+    if (this.state.precipTotal > 0.5) {
+      verdict = 'No';
+    } else {
+      verdict = 'Yes';
+    }
+
     return (
-      <div>Precip Total: {this.state.precipTotal} inches</div>
+      <div>
+        <p>Do I Need to Water My Carrots?</p>
+        <h1>{verdict}</h1>
+      </div>
     );
   }
 
