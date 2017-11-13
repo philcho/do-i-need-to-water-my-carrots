@@ -7,6 +7,7 @@ class App extends React.Component {
 
     this.state = {
       precipTotal: 0,
+      location: 'sf',
       showVerdict: false
     }
 
@@ -64,11 +65,16 @@ class App extends React.Component {
   }
 
   render() {
+    let questionText = 'Do I Need to Water My Carrots?';
+    if (this.state.location === 'de') {
+      questionText = 'Muss Ich Meine Karotten Wässern?';
+    }
+
     let verdictText = null;
     if (this.state.precipTotal > 0.5) {
-      verdictText = 'No';
+      verdictText = (this.state.location === 'de') ? 'Nein' : 'No';
     } else {
-      verdictText = 'Yes';
+      verdictText = (this.state.location === 'de') ? 'Ja' : 'Yes';
     }
 
     let verdict = null;
@@ -78,7 +84,7 @@ class App extends React.Component {
 
     return (
       <div>
-        <p className="question" onClick={this.handleQuestionClick}>Do I Need to Water My Carrots?</p>
+        <p className="question" onClick={this.handleQuestionClick}>{questionText}</p>
         {verdict}
       </div>
     );
