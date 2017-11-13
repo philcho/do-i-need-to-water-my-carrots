@@ -1,5 +1,6 @@
 import React from 'react';
 import $ from 'jquery';
+import translation from './translation.js';
 
 class App extends React.Component {
   constructor(props) {
@@ -65,16 +66,13 @@ class App extends React.Component {
   }
 
   render() {
-    let questionText = 'Do I Need to Water My Carrots?';
-    if (this.state.location === 'de') {
-      questionText = 'Muss Ich Meine Karotten Wässern?';
-    }
+    let questionText = translation[this.state.location].question;
 
     let verdictText = null;
     if (this.state.precipTotal > 0.5) {
-      verdictText = (this.state.location === 'de') ? 'Nein' : 'No';
+      verdictText = translation[this.state.location].no;
     } else {
-      verdictText = (this.state.location === 'de') ? 'Ja' : 'Yes';
+      verdictText = translation[this.state.location].yes;
     }
 
     let verdict = null;
