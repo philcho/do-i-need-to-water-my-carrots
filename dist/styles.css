@@ -20,10 +20,6 @@ section {
   cursor: pointer;
 }
 
-.question:hover {
-  color: orange;
-}
-
 .verdict {
   font-weight: bold;
 }
