@@ -24,12 +24,13 @@ app.use(webpackDevMiddleware(compiler, {
   historyApiFallback: true,
 }));
 
-app.get('/data/:day', function(req, res) {
+app.get('/data/:day/:latLong', function(req, res) {
   let day = req.params.day;
+  let latLong = req.params.latLong;
   let isInDb = false;
 
   // Check if day's data is in DB
-  entries.dataGet(day, function(err, rainEntry) {
+  entries.dataGet(day, latLong, function(err, rainEntry) {
     if (err) {
       res.status(503).send(err);   
     } else if (rainEntry.length > 0) { 
@@ -37,10 +38,10 @@ app.get('/data/:day', function(req, res) {
       res.status(200).send(rainEntry);     
     } else {
       // If not...
-      // Save day's data from API and save to DB
-      getPrecipDataAsync(day)
+      // Get day's data from API and save to DB
+      getPrecipDataAsync(day, latLong)
         .then(function(data) {
-          entries.dataSave(data, day, function(err, rainEntry) {
+          entries.dataSave(data, day, latLong, function(err, rainEntry) {
             if(err) {
               if(err.code === 11000) { // duplicate entry
                 res.status(409).send(err);     

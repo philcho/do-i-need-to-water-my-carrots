@@ -27,9 +27,9 @@ class App extends React.Component {
     }
   }
 
-  getWeatherData(day, callback) {
+  getWeatherData(day, latLong, callback) {
     $.ajax({
-      url: `http://localhost:3000/data/${day}`,
+      url: `http://localhost:3000/data/${day}/${latLong}`,
       success: function(entryData) {
         callback(entryData);
       },
@@ -52,8 +52,9 @@ class App extends React.Component {
 
     for (let i = 1; i <= numOfDays; i++) {
       let day = this.getPastDate(i);
-      
-      this.getWeatherData(day, function(entryData) {
+      let latLong = translation[this.state.location].latLong;
+
+      this.getWeatherData(day, latLong, function(entryData) {
         let rainfallAmount = this.extractRainfallData(entryData);
         let newPrecipTotal = this.state.precipTotal + rainfallAmount;
         this.setState({ precipTotal: newPrecipTotal }); // TODO: Make this work without having to set state every iteration (Promises?)

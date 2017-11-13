@@ -10,16 +10,16 @@ db.once('open', function() {
 });
 
 var dbSchema = mongoose.Schema({
-  date: { type: String, index: { unique: true }},
+  date: String,
   rainfall: Number,
-  zipcode: String,
+  latLong: String,
   hightemp: Number  
 });
 
 var RainLog = mongoose.model('RainLog', dbSchema);
 
-var dataGet = function(day, callback) {
-  RainLog.find({ date: day }, function(err, rainEntry) {
+var dataGet = function(day, latLong, callback) {
+  RainLog.find({ date: day, latLong: latLong }, function(err, rainEntry) {
     if (err) {
       callback(err, null);
     } else {
@@ -28,13 +28,13 @@ var dataGet = function(day, callback) {
   }); 
 };
 
-var dataSave = function(weatherData, day, callback) {
+var dataSave = function(weatherData, day, latLong, callback) {
   let wData = JSON.parse(weatherData).daily.data[0];
 
   var rainEntry = new RainLog({
     date: day,
     rainfall: wData.precipAccumulation || 0,
-    zipcode: '02201',
+    latLong: latLong,
     hightemp: wData.temperatureHigh
   });
 
