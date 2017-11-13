@@ -80,7 +80,7 @@ class App extends React.Component {
     let questionText = translation[this.state.location].question;
 
     let verdictText = null;
-    if (this.state.precipTotal > 0.5) {
+    if (this.state.precipTotal >= 0.5) {
       verdictText = translation[this.state.location].no;
     } else {
       verdictText = translation[this.state.location].yes;
@@ -91,7 +91,7 @@ class App extends React.Component {
       verdict = <p className="verdict">{verdictText}</p>
     }
 
-    let changeLocationText = (this.state.location === 'sf') ? 'de' : 'sf';
+    let changeLocationName = (this.state.location === 'sf') ? 'de' : 'sf';
 
     return (
       <article>
@@ -99,7 +99,7 @@ class App extends React.Component {
           <p className="question" onClick={this.handleQuestionClick}>{questionText}</p>
           {verdict}
         </section>
-        <span className="changeLocation" onClick={this.handleLocationClick}>{changeLocationText}</span>
+        <span className={'changeLocation ' + changeLocationName} onClick={this.handleLocationClick}>{changeLocationName}</span>
       </article>
     );
   }
