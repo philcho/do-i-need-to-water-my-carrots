@@ -13,6 +13,7 @@ class App extends React.Component {
     }
 
     this.handleQuestionClick = this.handleQuestionClick.bind(this);
+    this.handleLocationClick = this.handleLocationClick.bind(this);
   }
 
   extractRainfallData(entryData) {
@@ -66,6 +67,15 @@ class App extends React.Component {
     this.setState({ showVerdict: true });
   }
 
+  handleLocationClick(e) {
+    this.setState({ 
+      location: e.currentTarget.textContent, 
+      showVerdict: false 
+    }, function() {
+      this.calculateRainfallTotal(3);
+    });
+  }
+
   render() {
     let questionText = translation[this.state.location].question;
 
@@ -81,11 +91,16 @@ class App extends React.Component {
       verdict = <p className="verdict">{verdictText}</p>
     }
 
+    let changeLocationText = (this.state.location === 'sf') ? 'de' : 'sf';
+
     return (
-      <div>
-        <p className="question" onClick={this.handleQuestionClick}>{questionText}</p>
-        {verdict}
-      </div>
+      <article>
+        <section>
+          <p className="question" onClick={this.handleQuestionClick}>{questionText}</p>
+          {verdict}
+        </section>
+        <span className="changeLocation" onClick={this.handleLocationClick}>{changeLocationText}</span>
+      </article>
     );
   }
 
